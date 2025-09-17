@@ -11,15 +11,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { LogIn, LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 
 export function Header(){
     const [isOpen, setIsOpen] = useState(false);
 
+    const session = true;
+    
     const navItems = [
-        {  href: '#', label: 'Profissionais' },
-        {  href: '#', label: 'Contatos' },
+        {  href: '#', label: 'Profissionais' }
     ]
 
     const NavLinks = () => (
@@ -28,12 +29,26 @@ export function Header(){
                 <Button key={item.label} variant="link" 
                     onClick={() => setIsOpen(false)} 
                     className="border-2 border-green-500 w-28 
-                    hover:bg-green-600 text-black shadow-none">
-                    <Link href={item.href}>
+                    hover:bg-green-600 hover:text-white">
+                    <Link href={item.href} className="text-base font-medium">
                         {item.label}
                     </Link>
                 </Button>
             ))}
+
+            {session ? (
+                <Link href="/dashboard" className="w-full">
+                    <Button className="bg-red-500 px-3 w-full cursor-pointer hover:bg-red-700">
+                    Sair
+                    <LogOut />
+                </Button>
+                </Link>
+            ) : (
+                <Button>
+                    Fazer Login
+                    <LogIn />
+                </Button>
+            )}
         </>
     )
 
