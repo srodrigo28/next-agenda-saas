@@ -7,6 +7,8 @@
 #### Preview Web Home
 <img src="./preview/web-home.png" alt="">
 
+<img src="./preview/web-home-2.png" alt="">
+
 #### Preview Mobile Home
 <img src="./preview/mobile-home.png" alt="">
 

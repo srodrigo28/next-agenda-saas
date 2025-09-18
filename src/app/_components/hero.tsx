@@ -8,15 +8,15 @@ export function Hero(){
         <section className="bg-green-50">
             <div className="container mx-auto px-4 pt-20 sm:px-6 lg:px-8 ">
                 <main className="flex flex-col md:flex-row items-center justify-center h-96">
-                    <article className="space-y-6 mt-3 flex-[2]">
-                        <h1 className="text-4xl lg:text-5xl">Encontre os melhores profissionais em um único local!</h1>
-                        <p className="text-base md:text-lg text-gray-600">
+                    <article className="space-y-6 mt-6 flex-[2]">
+                        <h1 className="text-3xl text-center lg:text-5xl">Encontre os melhores profissionais em um único local!</h1>
+                        <p className="text-sm md:text-lg text-gray-600">
                             Nós somos um plataforma para profissionais da saúde com foco em 
                             psicologia, nutrição e educação física. Aqui você pode encontrar
                             profissionais qualificados para te ajudar a alcançar seus objetivos
                             de saúde e bem-estar.
                         </p>
-                        <Button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mt-4">
+                        <Button className="bg-emerald-500 w-full md:w-[200px] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mt-4">
                             Encontre uma clicnica
                         </Button>
                     </article>
