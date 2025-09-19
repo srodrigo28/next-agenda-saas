@@ -14,3 +14,52 @@
 
 #### Preview Mobile Menu
 <img src="./preview/mobile-menu.png" alt="">
+
+#### Inciando Prisma
+    ``` 1.
+    npm i prisma --save-dev
+    ```
+
+    ``` 2.
+    npx prisma init
+    ```
+
+    ``` 3. prisma client
+    npm i @prisma/client
+    ```
+
+    ``` 4. src/lib/prisma.ts
+    import { PrismaClient } from "@prisma/client";
+
+        let prisma: PrismaClient;
+
+        if (process.env.NODE_ENV === "production") {
+            prisma = new PrismaClient();
+        } else {
+            let globalWithPrisma = global as typeof globalThis & {
+                prisma: PrismaClient;
+            };
+
+            if (!globalWithPrisma.prisma) {
+                globalWithPrisma.prisma = new PrismaClient();
+            }
+
+            prisma = globalWithPrisma.prisma;
+        }
+
+        export default prisma;
+    ```
+
+#### Adpter
+npx auth secret
+npm install next-auth@beta
+npm install @auth/prisma-adapter
+
+#### Fazendo nossa migration
+npx prisma migrate dev
+
+#### Toda vez que fazer uma migration
+npx prisma generate
+
+#### Verificar as tabelas criadas
+npx prisma studio

@@ -1,18 +1,137 @@
 "use client"
 
 import clsx from "clsx"
+import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { usePathname } from "next/navigation"
-import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger} from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Banknote, CalendarCheck2, Folder, List, Settings } from "lucide-react"
-import Link from "next/link"
+import logoImg from "../../../../../public/logo-width.png"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger} from "@/components/ui/sheet"
+import { Banknote, CalendarCheck2, ChevronLeft, ChevronRight, Folder, List, Settings } from "lucide-react"
+
 export function SidebarDashboard( { children } : { children?: React.ReactNode } ) {
     const pathame = usePathname()
     const [isCollapsed, setIsCollapsed] = useState(false)
    
     return(
         <div className="flex min-h-screen w-full">
+            {/* Sidebar para telas maiores */}
+            <aside className={clsx("flex flex-col border-r bg-background transition-all duration-300 p-4 h-full", {
+                "w-20" : isCollapsed,
+                "w-64" : !isCollapsed,
+                "hidden md:flex md:fixed": true
+            })}>
+            <div className="mb-6 mt-4">
+                {!isCollapsed && (
+                    <Image
+                        src={logoImg}
+                        alt="Logo"
+                        priority
+                        quality={100}
+                        style={{
+                            width: 'auto',
+                            height: 'auto',
+                        }}
+                        className="transition-all duration-300"
+                    />
+                )}
+            </div>
+            
+            <Button className="bg-gray-100 hover:gray-50 hover:bg-gray-200 cursor-pointer text-zinc-900 self-end mb-2"
+                onClick={ () => setIsCollapsed(!isCollapsed) }
+            >
+                { !isCollapsed 
+                    ? <ChevronLeft className="w-12 h-12"  /> 
+                    : <ChevronRight className="w-12 h-12" />
+                }
+            </Button>
+
+            {isCollapsed && (
+                <nav className="flex flex-col gap-3 overflow-hidden">
+                    <span className="mt-3"></span>
+                        <SidebarLink
+                            href="/dashboard"
+                            label="Agendamentos"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<CalendarCheck2 className="w-6 h-6" />}
+                        />
+
+                        <SidebarLink
+                            href="/dashboard/services"
+                            label="Serviços"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<Folder className="w-6 h-6"/>}
+                        />
+
+                        <SidebarLink
+                            href="/dashboard/profile"
+                            label="Meu Perfil"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<Settings  className="w-6 h-6"/>}
+                        />
+
+                        <SidebarLink
+                            href="/dashboard/plans"
+                            label="Planos"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<Banknote  className="w-6 h-6"/>}
+                        />
+                </nav>
+            )}
+
+            <Collapsible open={!isCollapsed}>
+                <CollapsibleContent>
+                    <nav className="flex flex-col gap-2 overflow-hidden">
+                        <span className="font-semibold">Painel</span>
+
+                        <SidebarLink
+                            href="/dashboard"
+                            label="Agendamentos"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<CalendarCheck2 className="w-6 h-6" />}
+                        />
+
+                        <SidebarLink
+                            href="/dashboard/services"
+                            label="Serviços"
+                            pathname={pathame}
+                            isColapsed={isCollapsed}
+                            icon={<Folder className="w-6 h-6"/>}
+                        />
+                        <hr className="border-1 mt-3 border-gray-300" />
+                        <span className="font-semibold">Configurações</span>
+                            <SidebarLink
+                                href="/dashboard/profile"
+                                label="Meu Perfil"
+                                pathname={pathame}
+                                isColapsed={isCollapsed}
+                                icon={<Settings  className="w-6 h-6"/>}
+                            />
+
+                            <SidebarLink
+                                href="/dashboard/plans"
+                                label="Planos"
+                                pathname={pathame}
+                                isColapsed={isCollapsed}
+                                icon={<Banknote  className="w-6 h-6"/>}
+                            />
+                    </nav>
+                </CollapsibleContent>
+            </Collapsible>    
+                
+
+            </aside>
+
+
+
+            {/* Sidebar para telas menores */}
             <div className={clsx("flex flex-1 flex-col transition-all duration-300", {
                 "md:ml-20": isCollapsed,
                 "ml-64": !isCollapsed
@@ -73,6 +192,7 @@ export function SidebarDashboard( { children } : { children?: React.ReactNode } 
                     </SheetContent>
                 </Sheet>
             </header>
+
             <main className="flex-1 py-4 px-2 md:p-6">
                 {children}
             </main>
