@@ -25,7 +25,6 @@ export function Hero(){
                             alt="doctor perfil"
                             className="z-10 object-contain hidden md:block w-[200px] md:w-[400px] h-[480px] md:pb-10 pb-52  mx-auto" 
                             width={380} height={380}
-                            quality={100}
                             priority
                         />
                     </div>
