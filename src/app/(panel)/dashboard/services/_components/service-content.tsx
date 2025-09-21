@@ -1,4 +1,5 @@
 import { getAllServices } from "../_data-access/get-all-services";
+import { ServicesList } from "./services-list";
 
 interface ServicesContentProps{
     userId: string;
@@ -10,8 +11,7 @@ export async function ServiceContent( { userId} : ServicesContentProps){
     console.log(services)
     return(
         <div>
-            <h1>TODOS OS MEUS SERVIÇOS</h1>
-            <p>User ID: {userId}</p>
+            <ServicesList />
         </div>
     )
 }
