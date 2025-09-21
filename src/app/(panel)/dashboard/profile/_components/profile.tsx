@@ -14,11 +14,30 @@ import { PlusCircle } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
-export function ProfileContent(){
-    const [selectedHours, setSelectedHours] = useState<string[]>([])
+// import { Prisma } from "@prisma/client"
+import { Prisma } from "@/generated/prisma" // 
+
+type UseWithSubscription = Prisma.UserGetPayload<{
+  include: { subscription: true }
+}>
+
+interface ProfileContentProps{
+    user: UseWithSubscription;
+}
+
+export function ProfileContent( { user } : ProfileContentProps ){
+    const [selectedHours, setSelectedHours] = useState<string[]>( user.times ?? [])
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
     const hours = generateTimeSlots();
-    const form = useProfileForm();
+
+    // const form = useProfileForm();
+    const form = useProfileForm({
+        name: user.name,
+        address: user.address,
+        phone: user.phone,
+        status: user.status,
+        timeZone: user.timeZone
+    })
 
     const timeZone = Intl.supportedValuesOf("timeZone").filter((zone) =>
         zone.startsWith("America/Sao_Paulo") ||
@@ -62,7 +81,6 @@ export function ProfileContent(){
     // console.log(hours)
 
     async function onSubmit(values: ProfileFormData){
-
         const profileData = {
             ...values,
             times: selectedHours
@@ -231,7 +249,7 @@ export function ProfileContent(){
 
                                 <Button
                                     type="submit"
-                                    className="w-full bg-emerald-500 hover:bg-emerald-400"
+                                    className="w-full bg-blue-500 hover:bg-blue-400"
 
                                 >Salvar alterações</Button>
                             </div>

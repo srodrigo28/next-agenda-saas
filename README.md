@@ -60,6 +60,7 @@ npx prisma migrate dev
 
 #### Toda vez que fazer uma migration
 npx prisma generate
+npx prisma generate
 
 #### Verificar as tabelas criadas
 npx prisma studio
@@ -69,3 +70,35 @@ form validate, zod
 npx shadcn@latest add form
 npx shadcn@latest add input
 npx shadcn@latest add select
+
+#### 32 uma travada
+
+* Alterar no profile.tsx
+```
+// import { Prisma } from "@prisma/client"
+import { Prisma } from "@/generated/prisma" // 
+```
+
+* alterar no profile/page.tsx
+```
+import { redirect } from 'next/navigation'
+import getSession from '@/lib/getSession'
+import { getUserDate } from './_data_access/get-info-user'
+import { ProfileContent } from './_components/profile'
+
+export default async function Profile() {
+  const session = await getSession()
+
+  if (!session) {
+    redirect("/")
+  }
+
+  const user = await getUserDate({ userId: session.user?.id })
+
+  if (!user) {
+    redirect("/") // ou outra ação
+  }
+
+  return <ProfileContent user={user} />
+}
+```
