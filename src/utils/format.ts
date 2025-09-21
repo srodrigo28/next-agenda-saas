@@ -33,6 +33,24 @@ export function formatCurrency(value: number | string) {
   })
 }
 
+/** Convertendo valores
+ * - Converte valor do campo (BRL) 
+ * - @param {string} amount - para centavos
+ * - @returns {number} - inteiro para gravar no campo
+ * - @example convertRealToCentes("10") // return: 10000
+ * - Valor em centavos = Valor em reais * 100
+ * - Valor em reais = Valor em centavos / 100
+ */
+export function convertRealToCentes(amount: string){
+  const numericPrice = parseFloat(amount.replace(/\./g, '').replace(',', '.'))
+  const priceInCents = Math.round(numericPrice * 100)
+
+  console.log(numericPrice)
+
+  return priceInCents
+
+}
+
 export function formatDate(date: Date | string, showTime: boolean = false) {
   const parsedDate = typeof date === "string" ? new Date(date) : date
 
