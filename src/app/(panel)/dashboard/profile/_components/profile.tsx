@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import ImageTest from "../../../../../../public/doutora-3.jpg"
+import { toast } from 'sonner'
+import { formatPhone, extractPhoneNumber } from "@/utils/format"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image"
@@ -82,13 +84,16 @@ export function ProfileContent( { user } : ProfileContentProps ){
     // console.log(hours)
 
     async function onSubmit(values: ProfileFormData){
-        /** 
+        /**  teste
         const profileData = {
             ...values,
             times: selectedHours
         }
         console.log(profileData);
         */
+
+        // se quiser salvar sem caracteres
+        const extractValue = extractPhoneNumber(values.phone || "")
 
         const response = await updateProfile({
             name: values.name,
@@ -98,8 +103,13 @@ export function ProfileContent( { user } : ProfileContentProps ){
             times: selectedHours || [],
             phone: values.phone 
         })
-
-        console.log('resposta: ', response);
+        //ERROR
+        if(response.error){
+            toast.error(response.error)
+            return;
+        }
+        //SUCESSO
+        toast.success(response.data)
     }
 
     return(
@@ -153,7 +163,14 @@ export function ProfileContent( { user } : ProfileContentProps ){
                                         <FormItem>
                                             <FormLabel>Telefone</FormLabel>
                                             <FormControl>
-                                                <Input {...field} placeholder="(62) 9 0000-0000" />
+                                                <Input 
+                                                    {...field} 
+                                                    placeholder="(62) 9 0000-0000" 
+                                                    onChange={ (e) => {
+                                                        const formattedValue = formatPhone(e.target.value)
+                                                        field.onChange(formattedValue)
+                                                    }}
+                                            />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

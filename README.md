@@ -102,3 +102,6 @@ export default async function Profile() {
   return <ProfileContent user={user} />
 }
 ```
+
+#### Messagens
+npm install sonner
