@@ -1,13 +1,36 @@
 "use client"
+/** Convertendo valores
+ * 
+ * - Valor em centavos = Valor em reais * 100
+ * - Valor em reais = Valor em centavos / 100
+ */
 
 import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { useDialogServiceForm } from "./dialog-service-form"
+import { DialogServiceFormData, useDialogServiceForm } from "./dialog-service-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 export function DialogService(){
     const form = useDialogServiceForm()
+
+    async function onSubmit(values: DialogServiceFormData) {
+        console.log(values)
+    }
+
+    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>) {
+        let { value } = event.target;
+        value = value.replace(/\D/g, '');
+
+        if(value){
+            value = (parseInt(value, 10) / 100).toFixed(2);
+            value = value.replace('.', ',');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        }
+
+        event.target.value = value;
+        form.setValue("price", value)
+    }
 
     return(
         <>
@@ -19,7 +42,7 @@ export function DialogService(){
             </DialogHeader>
 
             <Form {...form}>
-                <form className="space-y-2">
+                <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="flex flex-col gap-3">
                         <FormField 
                             control={form.control}
@@ -46,7 +69,10 @@ export function DialogService(){
                                         Preço do serviço:
                                     </FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="Digite o preço do serviço" />
+                                        <Input {...field} 
+                                        onChange={changeCurrency}
+                                        placeholder="Digite o preço do serviço"
+                                    />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
