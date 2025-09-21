@@ -99,7 +99,7 @@ export function ProfileContent( { user } : ProfileContentProps ){
                         <CardContent className="space-y-6">
                             <div className="flex justify-center">
                                 <div className=" bg-gray-200 relative w-40 h-40 overflow-hidden rounded-full">
-                                    <Image src={ImageTest} alt="" fill className="object-cover"  />
+                                    <Image src={ user.image ? user.image : ImageTest } alt="" fill className="object-cover"  />
                                 </div>
                             </div>
 

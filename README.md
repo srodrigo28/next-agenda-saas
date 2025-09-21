@@ -71,7 +71,7 @@ npx shadcn@latest add form
 npx shadcn@latest add input
 npx shadcn@latest add select
 
-#### 32 uma travada
+#### 33 uma travada erro
 
 * Alterar no profile.tsx
 ```
