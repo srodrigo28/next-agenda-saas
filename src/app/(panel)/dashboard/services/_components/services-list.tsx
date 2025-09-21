@@ -21,7 +21,8 @@ export function ServicesList(){
                         <DialogTrigger>
                             <Button><Plus className="w-4 h-4" /></Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        {/* Alterar a possião de abrir o modal */}
+                        <DialogContent  className="top-14 translate-y-0">
                             <DialogService />
                         </DialogContent>
                     </CardHeader>

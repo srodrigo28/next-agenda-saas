@@ -123,12 +123,9 @@ export function SidebarDashboardBckup( { children } : { children?: React.ReactNo
                             />
                     </nav>
                 </CollapsibleContent>
-            </Collapsible>    
-                
+            </Collapsible>          
 
             </aside>
-
-
 
             {/* Sidebar para telas menores */}
             <div className={clsx("flex flex-1 flex-col transition-all duration-300", {
