@@ -54,6 +54,7 @@ export default function Test() {
           </button>
         </section>
       </div>
+        <p>{selectedHours}</p>
     </div>
   )
 }
