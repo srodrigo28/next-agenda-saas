@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils"
 
 // import { Prisma } from "@prisma/client"
 import { Prisma } from "@/generated/prisma" // 
+import { updateProfile } from "../_actions/update-profile"
 
 type UseWithSubscription = Prisma.UserGetPayload<{
   include: { subscription: true }
@@ -81,11 +82,24 @@ export function ProfileContent( { user } : ProfileContentProps ){
     // console.log(hours)
 
     async function onSubmit(values: ProfileFormData){
+        /** 
         const profileData = {
             ...values,
             times: selectedHours
         }
-        console.log("Values: ", profileData)
+        console.log(profileData);
+        */
+
+        const response = await updateProfile({
+            name: values.name,
+            address: values.address,
+            status: values.status === 'active',
+            timeZone: values.timeZone,
+            times: selectedHours || [],
+            phone: values.phone 
+        })
+
+        console.log('resposta: ', response);
     }
 
     return(
