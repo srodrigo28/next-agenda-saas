@@ -1,11 +1,10 @@
 import getSession from '@/lib/getSession'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 export default async function Dashboard(){
     const session = await getSession()
 
-    console.log(session?.user)
+    // console.log(session?.user)
 
     if(!session){
         redirect("/")

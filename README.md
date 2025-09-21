@@ -63,3 +63,9 @@ npx prisma generate
 
 #### Verificar as tabelas criadas
 npx prisma studio
+
+#### Forms para Profil
+form validate, zod
+npx shadcn@latest add form
+npx shadcn@latest add input
+npx shadcn@latest add select

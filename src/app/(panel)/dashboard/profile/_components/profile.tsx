@@ -1,0 +1,193 @@
+"use client"
+import { useProfileForm  } from "./profile-form"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import ImageTest from "../../../../../../public/doutora-3.jpg"
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { PlusCircle } from "lucide-react"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
+
+export function ProfileContent(){
+    const [selectedHours, setSelectedHours] = useState<string[]>([])
+
+    function toggleHour(hour: string) {
+        setSelectedHours((prev) => prev.includes(hour) 
+        ? prev.filter(h => h !== hour) 
+        : [...prev, hour].sort())
+    }
+
+    const form = useProfileForm();
+
+    function generateTimeSlots(): string[] {
+        const hours: string[] = []
+
+        /** Trazendo somente horas exemplo 08:00  */
+            for(let i=8; i<=24; i++){
+                const hour = i.toString().padStart(2, "0")
+                hours.push(`${hour}:00`)
+            }
+       
+
+        /** Trazendo horas e meia exemplo 08:00 e 08:30 
+           for (let i = 8; i < 24; i++) {
+            for (let j = 0; j < 2; j++) {
+                const hour = i.toString().padStart(2, "0")
+                const minute = (j * 30).toString().padStart(2, "0")
+                hours.push(`${hour}:${minute}`)
+            }
+        }
+        */
+       
+        return hours
+    }
+
+    const hours = generateTimeSlots();
+    const [dialogIsOpen, setDialogIsOpen] = useState(false);
+
+    console.log(hours)
+
+    return(
+        <div className="mx-auto">
+            <Form {...form}>
+                <form>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Meu Perfil</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="flex justify-center">
+                                <div className=" bg-gray-200 relative w-40 h-40 overflow-hidden rounded-full">
+                                    <Image src={ImageTest} alt="" fill className="object-cover"  />
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Nome completo</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} placeholder="Digite seu nome completo" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="address"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Endereço completo:</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} placeholder="Digite seu endereço completo" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="phone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Telefone</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} placeholder="(62) 9 0000-0000" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="status"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Status da Empresa
+                                            </FormLabel>
+                                            <FormControl>
+                                            <Select 
+                                                    onValueChange={field.onChange} 
+                                                    defaultValue={field.value ? "active" : "inactive"}
+                                                >
+                                                <SelectTrigger>
+                                                        <SelectValue placeholder="Selecione o status da empresa" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="active">Ativo (empresa aberta)</SelectItem>
+                                                        <SelectItem value="inactive">Inativo (empresa fechada)</SelectItem>
+                                                    </SelectContent>
+                                            </Select>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <div className="space-y-2">
+                                    <Label className="font-semibold">
+                                        Configurar Horários de funcionamento
+                                    </Label>
+
+                                    <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+                                        <DialogTrigger asChild>
+                                            <Button className="w-full md:gap-6 items-center justify-center bg-blue-300 hover:bg-blue-400 duration-200 cursor-pointer">
+                                                <span>Configurar horários disponiveis</span>
+                                                <PlusCircle />
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Horários da empresa</DialogTitle>
+                                                    <DialogDescription>
+                                                        Selecione horários para o funcionamento da empresa
+                                                    </DialogDescription>
+                                            </DialogHeader>
+                                            <section className="py-4">
+                                                <p className="mb-2 text-sm text-muted-foreground">
+                                                    Clique para selecionar os horários
+                                                </p>
+                                                <div className="grid grid-cols-5 gap-2">
+                                                    {hours.map((hour) => (
+                                                        <Button 
+                                                            key={hour}
+                                                            variant="outline"
+                                                            onClick={ () => toggleHour(hour)}
+                                                            className={cn(
+                                                                'border-2 border-green-500 cursor-pointer', 
+                                                                selectedHours.includes(hour) && 'bg-green-500' 
+                                                            )}
+                                                        >
+                                                            {hour}
+                                                        </Button>
+                                                    ))}
+                                                </div>
+                                            </section>
+                                            <Button className="w-full" onClick={ () => setDialogIsOpen(false)}>
+                                                    Gravar e fechar
+                                            </Button>
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </form>
+            </Form>
+        </div>
+    )
+}

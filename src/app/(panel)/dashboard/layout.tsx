@@ -5,7 +5,7 @@ export default function DashboardLayout({
  } : { children: React.ReactNode 
 }) {
     return (
-        <div className="min-h-screen relative">
+        <div className="min-h-screen w-screen relative">
             <SidebarDashboard>
                 {children}
             </SidebarDashboard>
