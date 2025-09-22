@@ -12,11 +12,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { convertRealToCentes } from "@/utils/format"
 import { createNewService } from "../_actions/create-service"
+import { toast } from "sonner"
+import { useState } from "react"
 
-export function DialogService(){
+interface DialogServicePro{
+    closeModal: () => void;
+}
+
+export function DialogService( { closeModal }: DialogServicePro ){
     const form = useDialogServiceForm()
+    const [loading, setLoading ] = useState(false)
 
     async function onSubmit(values: DialogServiceFormData) {
+        setLoading(true);
         const priceInCents = convertRealToCentes(values.price)
         const hours = parseInt(values.hours) || 0;
         const minutes = parseInt(values.minutes) || 0;
@@ -30,11 +38,24 @@ export function DialogService(){
             duration: duration
         })
 
-        console.log(response)
+        setLoading(false);
 
+        if(response.error){
+            toast.error(response.error)
+           
+            return
+        }else{
+            toast.success("Cadastrado com sucesso")
+            handCloseModal();
+        }
     }
 
-    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>) {
+    function handCloseModal(){
+        form.reset();
+        closeModal();
+    }
+
+     function changeCurrency(event: React.ChangeEvent<HTMLInputElement>) {
         let { value } = event.target;
         value = value.replace(/\D/g, '');
 
@@ -47,6 +68,7 @@ export function DialogService(){
         event.target.value = value;
         form.setValue("price", value)
     }
+
 
     return(
         <>
@@ -139,8 +161,12 @@ export function DialogService(){
                             )}
                         />
                     </div>
-                    <Button type="submit" className="w-full font-semibold text-white">
-                            Adicionar serviço
+                    <Button 
+                        type="submit" 
+                        disabled={loading}
+                        className="w-full font-semibold text-white"
+                    >
+                       { loading ? "Cadastrando..." : "Cadastrar" }
                     </Button>
                 </form>
             </Form>

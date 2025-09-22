@@ -11,7 +11,7 @@ export async function ServiceContent( { userId} : ServicesContentProps){
     console.log(services)
     return(
         <div>
-            <ServicesList />
+            <ServicesList services={services.data || []} />
         </div>
     )
 }
