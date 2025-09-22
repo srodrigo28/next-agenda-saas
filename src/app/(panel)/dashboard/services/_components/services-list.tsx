@@ -54,7 +54,7 @@ export function ServicesList( { services }: ServiceListProps ){
                                                 </div>
                                             </div>
                                                 <div className="flex gap-2">
-                                                    <button className="cursor-pointer text-red-500 hover:rotate-90 duration-200"><X /></button>
+                                                    <button className="cursor-pointer text-red-500 hover:rotate-90 duration-200"><X onClick={ () => alert("Excluir?")} /></button>
                                                     <button className="cursor-pointer text-yellow-600 hover:rotate-12 duration-200"><Edit2 /></button>
                                                 </div>
                                         </div>
