@@ -9,7 +9,12 @@ export async function getInfoSchedule({ userId} : {userId: string}){
         }
         const user = await prisma.user.findFirst({
             where: { id: userId },
-            include: { subscription: true, services: true }
+            include: { 
+                subscription: true, 
+                services: {
+                    where: { status: true }
+                } 
+            }
         })
         if(!user){
             return null;

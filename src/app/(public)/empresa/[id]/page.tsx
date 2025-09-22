@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation"
 import { getInfoSchedule } from "./_data-acess/get-info-shedule"
+import { ScheduleContent } from "./_components/schedule-content"
 
 export default async function SchedulePage( 
     {params} : { params: Promise<{ id: string }> }
@@ -15,6 +16,8 @@ export default async function SchedulePage(
     console.log(user)
 
     return(
-        <h1>Agendamentos <span>{ userId }</span></h1>
+       <>
+        <ScheduleContent />
+       </>
     )
 }
