@@ -10,6 +10,8 @@ import { Edit2, Plus, X } from "lucide-react"
 import { DialogService } from "./dialog-service"
 import { Service } from "@/generated/prisma"
 import { formatCurrency } from "@/utils/format"
+import { deleteservice } from "../_actions/delete-service"
+import { toast } from "sonner"
 
 interface ServiceListProps{
     services: Service[]
@@ -21,6 +23,17 @@ export function ServicesList( { services }: ServiceListProps ){
     console.log('Iniciando a lista -----------------------------------')
         console.log(services)
     console.log('Fim a lista -----------------------------------')
+
+    async function handleDeleteService(serviceId: string){
+        const response = await deleteservice({serviceId: serviceId})
+
+        if(response.error){
+            toast.error(response.error)
+            return
+        }
+
+        toast.success(response.data)
+    }
 
     return(
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -54,8 +67,12 @@ export function ServicesList( { services }: ServiceListProps ){
                                                 </div>
                                             </div>
                                                 <div className="flex gap-2">
-                                                    <button className="cursor-pointer text-red-500 hover:rotate-90 duration-200"><X onClick={ () => alert("Excluir?")} /></button>
-                                                    <button className="cursor-pointer text-yellow-600 hover:rotate-12 duration-200"><Edit2 /></button>
+                                                    <button className="cursor-pointer text-red-500 hover:rotate-90 duration-200">
+                                                        <X onClick={ () => handleDeleteService(service.id) } 
+                                                    /></button>
+                                                    <button className="cursor-pointer text-yellow-600 hover:rotate-12 duration-200">
+                                                        <Edit2 
+                                                    /></button>
                                                 </div>
                                         </div>
                                     </article>
