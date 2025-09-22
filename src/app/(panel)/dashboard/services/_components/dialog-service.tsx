@@ -12,15 +12,26 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { convertRealToCentes } from "@/utils/format"
 import { createNewService } from "../_actions/create-service"
+import { updateService } from "../_actions/update-service"
 import { toast } from "sonner"
 import { useState } from "react"
 
 interface DialogServicePro{
     closeModal: () => void;
+    serviceId?: string;
+    initialValues?: {
+        name: string;
+        price: string;
+        hours: string;
+        minutes: string;
+    } 
 }
 
-export function DialogService( { closeModal }: DialogServicePro ){
-    const form = useDialogServiceForm()
+export function DialogService( { 
+    closeModal, initialValues, serviceId 
+}: DialogServicePro ){
+    const form = useDialogServiceForm( 
+        {initialValues: initialValues } )
     const [loading, setLoading ] = useState(false)
 
     async function onSubmit(values: DialogServiceFormData) {
@@ -31,6 +42,17 @@ export function DialogService( { closeModal }: DialogServicePro ){
 
         // Converter as horas e minutos para duração total
         const duration = (hours * 60) + minutes;
+
+        if(serviceId){
+            await editServiceById({
+                serviceId: serviceId,
+                name: values.name,
+                priceInCents: priceInCents,
+                duration: duration
+            })
+
+            return;
+        }
 
         const response = await createNewService({
             name: values.name,
@@ -48,6 +70,28 @@ export function DialogService( { closeModal }: DialogServicePro ){
             toast.success("Cadastrado com sucesso")
             handCloseModal();
         }
+    }
+
+    async function editServiceById(
+        { serviceId, name, priceInCents, duration} : 
+        { serviceId: string, name: string, priceInCents: number, duration: number}) {
+
+        const response = await updateService({
+            servivceId: serviceId,
+            name: name,
+            price: priceInCents,
+            duration: duration
+        })
+
+        setLoading(false)
+
+        if(response.error){
+            toast.error(response.error)
+            return
+        }
+
+        toast.success(response.data)
+        handCloseModal();
     }
 
     function handCloseModal(){
@@ -166,7 +210,7 @@ export function DialogService( { closeModal }: DialogServicePro ){
                         disabled={loading}
                         className="w-full font-semibold text-white"
                     >
-                       { loading ? "Cadastrando..." : "Cadastrar" }
+                       { loading ? "Carregando..." : `${serviceId ? "Atualizar" : "Cadastrar"}` }
                     </Button>
                 </form>
             </Form>

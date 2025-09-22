@@ -12,17 +12,20 @@ import { Service } from "@/generated/prisma"
 import { formatCurrency } from "@/utils/format"
 import { deleteservice } from "../_actions/delete-service"
 import { toast } from "sonner"
+// import { useRouter } from 'next/navigation'
 
 interface ServiceListProps{
     services: Service[]
 }
 
 export function ServicesList( { services }: ServiceListProps ){
+    // const router = useRouter()
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [editingService, setEditingService] = useState<null | Service>(null)
 
-    console.log('Iniciando a lista -----------------------------------')
-        console.log(services)
-    console.log('Fim a lista -----------------------------------')
+    // console.log('Iniciando a lista -----------------------------------')
+    //     console.log(services)
+    // console.log('Fim a lista -----------------------------------')
 
     async function handleDeleteService(serviceId: string){
         const response = await deleteservice({serviceId: serviceId})
@@ -35,6 +38,12 @@ export function ServicesList( { services }: ServiceListProps ){
         toast.success(response.data)
     }
 
+    function handleEditService(service: Service){
+        setEditingService(service)
+        console.log(service);
+        setIsDialogOpen(true);
+    }
+
     return(
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
            <section className="mx-auto">
@@ -42,14 +51,29 @@ export function ServicesList( { services }: ServiceListProps ){
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-xl md:text-2xl font-semibold">Serviços</CardTitle>
                         <DialogTrigger>
-                            <Button className="bg-green-500 cursor-pointer hover:bg-green-400"><Plus className="w-4 h-4" /></Button>
+                            <Button
+                            
+                             className="bg-green-500 cursor-pointer hover:bg-green-400"><Plus className="w-4 h-4" /></Button>
                         </DialogTrigger>
                         {/* Alterar a possião de abrir o modal */}
-                        <DialogContent  className="top-14 translate-y-0">
+                        <DialogContent  onInteractOutside={ (e) => {
+                            e.preventDefault();
+                            setIsDialogOpen(false);
+                            setEditingService(null);
+                         }}
+                            className="top-14 translate-y-0">
                             <DialogService
                                 closeModal={ () => {
                                     setIsDialogOpen(false);
+                                    setEditingService(null);
                                 }}
+                                serviceId={editingService ? editingService.id : undefined}
+                                initialValues={ editingService ? {
+                                    name: editingService.name,
+                                    price: (editingService.price /100).toFixed(2).replace(".", ","),
+                                    hours: Math.floor(editingService.duration / 60).toString(),
+                                    minutes: (editingService.duration % 60).toString(),
+                                } : undefined }
                             />
                         </DialogContent>
                     </CardHeader>
@@ -72,6 +96,7 @@ export function ServicesList( { services }: ServiceListProps ){
                                                     /></button>
                                                     <button className="cursor-pointer text-yellow-600 hover:rotate-12 duration-200">
                                                         <Edit2 
+                                                        onClick={ () => handleEditService(service) }
                                                     /></button>
                                                 </div>
                                         </div>
