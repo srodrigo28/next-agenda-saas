@@ -8,11 +8,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import ImageTest from "../../../../../../public/doutora-3.jpg"
 import { toast } from 'sonner'
 import { formatPhone, extractPhoneNumber } from "@/utils/format"
+import { signOut, useSession} from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
+import { LogOut, PlusCircle } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
@@ -29,8 +31,11 @@ interface ProfileContentProps{
 }
 
 export function ProfileContent( { user } : ProfileContentProps ){
+    const router = useRouter();
     const [selectedHours, setSelectedHours] = useState<string[]>( user.times ?? [])
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
+    const { update } = useSession();
+
     const hours = generateTimeSlots();
 
     // const form = useProfileForm();
@@ -81,8 +86,6 @@ export function ProfileContent( { user } : ProfileContentProps ){
         return hours
     }
 
-    // console.log(hours)
-
     async function onSubmit(values: ProfileFormData){
         /**  teste
         const profileData = {
@@ -110,6 +113,12 @@ export function ProfileContent( { user } : ProfileContentProps ){
         }
         //SUCESSO
         toast.success(response.data)
+    }
+
+    async function handleLogout(){
+        await signOut();
+        await update();
+        router.replace("/")
     }
 
     return(
@@ -288,6 +297,13 @@ export function ProfileContent( { user } : ProfileContentProps ){
                     </Card>
                 </form>
             </Form>
+
+            <section className="mt-3">
+                <Button variant="destructive" onClick={handleLogout} className="cursor-pointer">
+                    <LogOut />
+                    Sair da Conta
+                </Button>
+            </section>
         </div>
     )
 }
