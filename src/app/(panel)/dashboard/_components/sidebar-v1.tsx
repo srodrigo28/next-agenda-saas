@@ -7,11 +7,11 @@ import { useState } from "react"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import logoImg from "../../../../../public/logo-width.png"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger} from "@/components/ui/sheet"
 import { Banknote, CalendarCheck2, ChevronLeft, ChevronRight, Folder, List, Settings } from "lucide-react"
 
-export function SidebarDashboardBckup( { children } : { children?: React.ReactNode } ) {
+export function SidebarDashboard3( { children } : { children?: React.ReactNode } ) {
     const pathame = usePathname()
     const [isCollapsed, setIsCollapsed] = useState(false)
    

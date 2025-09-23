@@ -106,5 +106,73 @@ export default async function Profile() {
 #### Messagens
 npm install sonner
 
+#### Date Picker
+npm install react-datepicker --save
+lembrar de importar
+import "react-datepicker/dist/react-datepicker.css"
+``` criando
+"use client"
+
+import { useState} from "react"
+import { ptBR } from "date-fns/locale/pt-BR"
+import "react-datepicker/dist/react-datepicker.css"
+import DatePicker, { registerLocale } from "react-datepicker"
+
+registerLocale("pt-BR", ptBR)
+
+interface DateTimePickerProps{
+    minDate?: Date;
+    className?: string;
+    initialDate?: Date;
+
+    onChange: (date: Date) => void;
+}
+
+export function DateTimePicker( { initialDate, className, minDate, onChange} : DateTimePickerProps) {
+    const [startDate, setStartDate] = useState( initialDate || new Date())
+
+    function handChange(date: Date | null){
+        if(date){
+            console.log(date);
+            setStartDate(date);
+            onChange(date)
+        }
+    }
+    return(
+        <DatePicker
+            className={className}
+            selected={startDate}
+            locale="pt-BR"
+            minDate={minDate ?? new Date()}
+            onChange={handChange}
+            dateFormat="dd/MM/yyyy"
+        />
+    )
+}
+```
+``` usando
+<FormField
+                        control={form.control}
+                        name="phone"
+                        render={ ({ field }) => (
+                            <FormItem className="my-2">
+                                <FormLabel className="font-semibold">Telefone:</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        {...field}
+                                        id="phone"
+                                        placeholder="Digite seu telefone"
+                                        onChange={ (e) => {
+                                            const formattedValue = formatPhone(e.target.value)
+                                            field.onChange(formattedValue)
+                                        }}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+```
+npm install date-fns --save
+
 #### Teste
 http://localhost:3000/empresa/cmfsdeqj30000v3103d84wrd1
