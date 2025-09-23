@@ -53,7 +53,10 @@ export function ScheduleContent( { empresa } : ScheduleContentProps){
             console.log(dateString)
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/schedule/get-appointments?userId=${empresa.id}&date=${dateString}`)
         
-            return []
+            const json = await response.json();
+            setLoadingSlots(false);
+
+            return json;
 
         }catch(err){
             console.log(err)
@@ -65,9 +68,17 @@ export function ScheduleContent( { empresa } : ScheduleContentProps){
     useEffect( () => {
 
         if(selectedData){
-            fetchBlockedTimes(selectedData)
-            .then( (blocked) => {
-                console.log("Horários reservados: ", blocked)
+            fetchBlockedTimes(selectedData).then( (blocked) => {
+                setBlockedTimes(blocked)
+
+                const times = empresa.times || [];
+
+                const finalSloats = times.map((time) => ({
+                    time: time,
+                    available: !blocked.includes(time)
+                }))
+
+                setAvailableTimeSlots(finalSloats)
             } )
         }
 

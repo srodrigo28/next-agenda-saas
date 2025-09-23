@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import doctorHome from "../../../public/doutora.jpg";
 import doctorHome2 from "../../../public/doutora2.webp";
 
 export function Hero(){
@@ -17,7 +16,7 @@ export function Hero(){
                             de saúde e bem-estar.
                         </p>
                         <Button className="bg-emerald-500 w-full md:w-[200px] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mt-4">
-                            Encontre uma clicnica
+                            Encontre uma Empresa
                         </Button>
                     </article>
                     <div className="flex-1 z-10">

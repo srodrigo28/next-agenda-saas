@@ -47,12 +47,33 @@ export async function GET(request: NextRequest) {
              }
         })
 
-        console.log("AGENDAMENTOS carregados: ", appointments)
+        /**
+         * Percorrendo serviço e procurando horários
+         * Disponíveis
+         */
+        const blockedSlots = new Set<string>()
 
-        return NextResponse.json({
-            ok: true
-        })
-        
+        for (const apt of appointments) {
+            const requiredSlots = Math.ceil(apt.service.duration / 30)
+            const startIndex = user.times.indexOf(apt.time)
+
+            if(startIndex !== -1){
+                for (let i = 0; i< requiredSlots; i++){
+                    const blockedSlot = user.times[startIndex + 1]
+
+                    if(blockedSlots){
+                        blockedSlots.add(blockedSlot)
+                    }
+                }
+            }
+        }
+
+        const blocketimes = Array.from(blockedSlots)
+
+        console.log("BlockedTimes: ", blocketimes)
+
+        return NextResponse.json(blocketimes)
+
     } catch (err) {
         console.log(err);
         return NextResponse.json({
