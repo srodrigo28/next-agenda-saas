@@ -1,0 +1,7 @@
+
+AUTH_GITHUB_ID="Ov23linL8Eks9fYNV2tZ"
+NEXT_PUBLIC_URL="http://localhost:3000/"
+AUTH_GITHUB_SECRET="cd679463dd69a5f394cf6b44601b4589effe7684"
+
+AUTH_SECRET="tl2dvRIzULohPdJtwsvIGtvN6A2dPqAWNc42NwUxJJ8=" # Added by `npx auth`. Read more: https://cli.authjs.dev
+DATABASE_URL="postgresql://neondb_owner:npg_MgcZKw7bz9LF@ep-noisy-cake-acwnrvjk-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
