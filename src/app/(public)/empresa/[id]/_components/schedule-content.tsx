@@ -14,6 +14,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { DateTimePicker } from "./date-picker"
 import { useState, useCallback, useEffect } from "react"
 import { ScheduleTimeList } from "./schedule-time-list"
+import { createNewAPpointment } from "../_actions/create-appointment"
+import { toast } from "sonner"
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -86,7 +88,28 @@ export function ScheduleContent({ empresa }: ScheduleContentProps) {
     }, [selectedData, empresa.times, fetchBlockedTimes, selectedTime])
 
     async function handleRegisterAppointmnent(formData: AppointmentFormData) {
-        console.log(formData)
+        if(!selectedTime){
+            return;
+        }
+
+        const response = await createNewAPpointment({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            time: selectedTime,
+            date: formData.date,
+            serviceId: formData.serviceId,
+            empresaId: empresa.id
+        })
+
+        if(response!.error){
+            toast.error(response!.error)
+            return;
+        }
+
+        toast.success("Consulta agendada com sucesso!")
+        form.reset();
+        setSelectedTime("");
     }
 
     return (
@@ -247,7 +270,7 @@ export function ScheduleContent({ empresa }: ScheduleContentProps) {
                                 </div>
                             </div>
                         )}
-                        {empresa.status ? (
+                        {!empresa.status ? (
                             <Button
                                 disabled={!form.watch("name") || !form.watch("email") || !form.watch("phone") || !form.watch("date")}
                                 className="w-full bg-emerald-500 hover:bg-emerald-400"
