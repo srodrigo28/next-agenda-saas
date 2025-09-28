@@ -16,6 +16,7 @@ import { useState, useCallback, useEffect } from "react"
 import { ScheduleTimeList } from "./schedule-time-list"
 import { createNewAPpointment } from "../_actions/create-appointment"
 import { toast } from "sonner"
+import { Slot } from "@radix-ui/react-slot"
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -82,6 +83,17 @@ export function ScheduleContent({ empresa }: ScheduleContentProps) {
                 }))
 
                 setAvailableTimeSlots(finalSloats)
+
+                // se o slot atual estiver indisponivel
+                const stillAvailable = finalSloats.find(
+                    (slot) => slot.time === selectedTime && slot.available
+                )
+
+                if(!stillAvailable){
+                    setSelectedTime("");
+                }
+
+                
             })
         }
 
