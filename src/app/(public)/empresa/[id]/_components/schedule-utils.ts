@@ -25,7 +25,7 @@ export function isSlotInThePast(slotTime: string){
     return false;
 }
 
-/** Doc isSlotSequenceAvailable
+/** 
  * @param startSlot  Primeiro horário disponivel
  * @param requiredSlots Quantidade de slots necessários
  * @param allSlots Todos horários da empresa

@@ -219,6 +219,7 @@ export function ScheduleContent({ empresa }: ScheduleContentProps) {
                                                 onChange={(date) => {
                                                     if (date) {
                                                         field.onChange(date)
+                                                        setSelectedTime("")
                                                     }
                                                 }}
                                             />
@@ -234,7 +235,10 @@ export function ScheduleContent({ empresa }: ScheduleContentProps) {
                                     <FormItem className="my-2">
                                         <FormLabel className="font-semibold">Selecione o serviço:</FormLabel>
                                         <FormControl >
-                                            <Select onValueChange={field.onChange}>
+                                            <Select onValueChange={(value) => {
+                                                field.onChange(value)
+                                                setSelectedTime("")
+                                            }}>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="selecione um serviço" />
                                                 </SelectTrigger>
