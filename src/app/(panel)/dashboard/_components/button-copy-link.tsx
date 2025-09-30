@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { LinkIcon } from "lucide-react"
 import { toast } from "sonner"
-
+/** criando link */
 export function ButtonCopyLink( {userId} : {userId: string} ){
 
     async function handleCopyLink(){
