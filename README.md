@@ -3,8 +3,8 @@
 #### React 19
 #### TailwindCSS 4
 #### ShadCN UI
-
-#### Config project
+#### Stripe Pix, Cartão e Boleto
+#### Config project 1
 * npm install
 * npx prisma generate
 * npx auth secret
