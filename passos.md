@@ -55,7 +55,6 @@ npx prisma migrate dev
 
 #### Toda vez que fazer uma migration
 npx prisma generate
-npx prisma generate
 
 #### Verificar as tabelas criadas
 npx prisma studio
