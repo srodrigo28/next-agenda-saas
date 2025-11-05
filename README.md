@@ -11,4 +11,4 @@
 
 #### Testar aplicação
 
-#### Aula atual 63
+#### Aula atual 69 - criando component adicionar lembrete
