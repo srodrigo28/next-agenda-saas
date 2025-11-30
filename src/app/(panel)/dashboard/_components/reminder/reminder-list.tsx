@@ -9,6 +9,7 @@ import { deleteReminder } from '../../_actions/delete-reminder';
 import { toast } from 'sonner'
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
+import { RemiderContent } from "./reminder-content";
 
 interface ReminderListProps {
   reminder: Reminder[]
@@ -48,9 +49,7 @@ export function ReminderList({ reminder }: ReminderListProps) {
                             <DialogTitle>Novo Lembrate</DialogTitle>
                             <DialogDescription>Criar novo lembrete para sua lista.</DialogDescription>
                         </DialogHeader>
-                        <div>
-                            Contente 123
-                        </div>
+                        <RemiderContent />
                     </DialogContent>
                 </Dialog>
 
