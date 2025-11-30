@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { deleteReminder } from '../../_actions/delete-reminder';
 import { toast } from 'sonner'
 import { useRouter } from "next/navigation";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 
 interface ReminderListProps {
   reminder: Reminder[]
@@ -34,9 +35,25 @@ export function ReminderList({ reminder }: ReminderListProps) {
                 <CardTitle className="text-xl md:text-2xl font-bold">
                     Lembretes +
                 </CardTitle>
-                <Button variant='ghost' className="w-9 p-0 border-2 border-violet-200 mr-1 hover:cursor-pointer">
-                    <Plus className="w-5 h-5" />
-                </Button>
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant='ghost' className="w-9 p-0 border-2 border-violet-200 mr-1 hover:cursor-pointer">
+                            <Plus className="w-5 h-5" />
+                        </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Novo Lembrate</DialogTitle>
+                            <DialogDescription>Criar novo lembrete para sua lista.</DialogDescription>
+                        </DialogHeader>
+                        <div>
+                            Contente 123
+                        </div>
+                    </DialogContent>
+                </Dialog>
+
             </CardHeader>
             <CardContent>
                 {reminder.length === 0 && (
