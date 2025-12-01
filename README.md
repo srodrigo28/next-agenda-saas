@@ -9,6 +9,8 @@ Aplicação de agendamento e gestão de serviços construída com Next.js, TypeS
 - **BD:** Prisma (Postgres / MySQL compatível)
 - **Pagamentos:** Stripe (Pix, cartão, boleto)
 
+## fictures
+
 ## Recursos
 - Autenticação de usuários
 - Painel administrativo para empresas
